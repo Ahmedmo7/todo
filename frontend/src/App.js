@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
-
+import {Input, Label} from 'reactstrap';
 const todoItems = [
   {
     id: 1,
@@ -29,6 +29,8 @@ const todoItems = [
   },
 ];
 
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -43,6 +45,14 @@ class App extends Component {
       },
     };
   }
+
+  handleChange = (e) => {
+    let { name, value } = e.target;
+
+    if (e.target.type === "checkbox") {
+      value = e.target.checked;
+  }
+}
 
   componentDidMount() {
     this.refreshList();
@@ -133,18 +143,24 @@ class App extends Component {
           {item.title}
         </span>
         <span>
+          
+        
+
           <button
             className="btn btn-secondary mr-2"
             onClick={() => this.editItem(item)}
           >
             Edit
           </button>
+
           <button
             className="btn btn-danger"
             onClick={() => this.handleDelete(item)}
           >
             Delete
           </button>
+
+
         </span>
       </li>
     ));
