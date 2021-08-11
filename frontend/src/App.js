@@ -107,11 +107,11 @@ class App extends Component {
 
  // On Click Complete
   onClickComplete = (item)=>{
-    if(!item.completed){
+    if(item.completed){
       axios.put(`api/todo/${item.completed = true}/`, item).then((res) => this.refreshList());
       return this.setState({viewCompleted:true});
     }
-    axios.post("api/todo/",item.completed).then((res)=>this.refreshList());
+    axios.post("api/todo/",item.completed = true).then((res)=>this.refreshList());
 
   }
 
