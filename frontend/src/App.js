@@ -104,6 +104,20 @@ class App extends Component {
     return this.setState({ viewCompleted: false });
   };
 
+
+ // On Click Complete
+  onClickComplete = (item)=>{
+    if(!item.completed){
+      axios.put(`api/todo/${item.completed = true}/`, item).then((res) => this.refreshList());
+      return this.setState({viewCompleted:true});
+    }
+    axios.post("api/todo/",item.completed).then((res)=>this.refreshList());
+
+  }
+
+
+
+
   renderTabList = () => {
     return (
       <div className="nav nav-tabs">
@@ -144,7 +158,13 @@ class App extends Component {
         </span>
         <span>
           
-        
+
+        <button
+            className="btn btn-success mr-2"
+            onClick={() => this.onClickComplete(item)}
+          >
+            Complete
+          </button>
 
           <button
             className="btn btn-secondary mr-2"
