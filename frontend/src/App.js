@@ -2,32 +2,32 @@ import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
 
-// const todoItems = [
-//   {
-//     id: 1,
-//     title: "Go to Market",
-//     description: "Buy Ingredients",
-//     completed: true,
-//   },
-//   {
-//     id: 2,
-//     title: "Study",
-//     description: "Math, Science",
-//     completed: false,
-//   },
-//   {
-//     id: 3,
-//     title: "Sammy's Books",
-//     description: "Get sammy some books from the store",
-//     completed: true,
-//   },
-//   {
-//     id: 4,
-//     title: "Write Article",
-//     description: "Determine the specs for my article",
-//     completed: false,
-//   },
-// ];
+const todoItems = [
+  {
+    id: 1,
+    title: "Go to Market",
+    description: "Buy Ingredients",
+    completed: true,
+  },
+  {
+    id: 2,
+    title: "Study",
+    description: "Math, Science",
+    completed: false,
+  },
+  {
+    id: 3,
+    title: "Sammy's Books",
+    description: "Get sammy some books from the store",
+    completed: true,
+  },
+  {
+    id: 4,
+    title: "Write Article",
+    description: "Determine the specs for my article",
+    completed: false,
+  },
+];
 
 
 
@@ -101,10 +101,10 @@ class App extends Component {
  // On Click Complete
   onClickComplete = (item)=>{
     if(!item.completed){
-      axios.put(`api/todo/${item.completed =true}/`, item).then((res) => this.refreshList());
-      return this.setState({viewCompleted:true}, {completed: true});
+      axios.put(`api/todo/${item.id}/`,item).then((res) => this.refreshList());
+      item.completed = true;
     }
-    axios.post("api/todo/",item.completed =true).then((res)=>this.refreshList());
+    axios.post("api/todo/",item).then(()=>this.refreshList());
 
   }
 
@@ -133,7 +133,7 @@ class App extends Component {
   renderItems = () => {
     const { viewCompleted } = this.state;
     const newItems = this.state.todoList.filter(
-      (item) => item.completed == viewCompleted
+      (item) => item.completed === viewCompleted
     );
 
     if(!viewCompleted){
