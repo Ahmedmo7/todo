@@ -1,33 +1,33 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
-import {Input, Label} from 'reactstrap';
-const todoItems = [
-  {
-    id: 1,
-    title: "Go to Market",
-    description: "Buy Ingredients",
-    completed: true,
-  },
-  {
-    id: 2,
-    title: "Study",
-    description: "Math, Science",
-    completed: false,
-  },
-  {
-    id: 3,
-    title: "Sammy's Books",
-    description: "Get sammy some books from the store",
-    completed: true,
-  },
-  {
-    id: 4,
-    title: "Write Article",
-    description: "Determine the specs for my article",
-    completed: false,
-  },
-];
+
+// const todoItems = [
+//   {
+//     id: 1,
+//     title: "Go to Market",
+//     description: "Buy Ingredients",
+//     completed: true,
+//   },
+//   {
+//     id: 2,
+//     title: "Study",
+//     description: "Math, Science",
+//     completed: false,
+//   },
+//   {
+//     id: 3,
+//     title: "Sammy's Books",
+//     description: "Get sammy some books from the store",
+//     completed: true,
+//   },
+//   {
+//     id: 4,
+//     title: "Write Article",
+//     description: "Determine the specs for my article",
+//     completed: false,
+//   },
+// ];
 
 
 
@@ -46,13 +46,6 @@ class App extends Component {
     };
   }
 
-  handleChange = (e) => {
-    let { name, value } = e.target;
-
-    if (e.target.type === "checkbox") {
-      value = e.target.checked;
-  }
-}
 
   componentDidMount() {
     this.refreshList();
@@ -107,11 +100,11 @@ class App extends Component {
 
  // On Click Complete
   onClickComplete = (item)=>{
-    if(item.completed){
-      axios.put(`api/todo/${item.completed = true}/`, item).then((res) => this.refreshList());
-      return this.setState({viewCompleted:true});
+    if(!item.completed){
+      axios.put(`api/todo/${item.completed =true}/`, item).then((res) => this.refreshList());
+      return this.setState({viewCompleted:true}, {completed: true});
     }
-    axios.post("api/todo/",item.completed = true).then((res)=>this.refreshList());
+    axios.post("api/todo/",item.completed =true).then((res)=>this.refreshList());
 
   }
 
@@ -143,7 +136,8 @@ class App extends Component {
       (item) => item.completed == viewCompleted
     );
 
-    return newItems.map((item) => (
+    if(!viewCompleted){
+     var entries= newItems.map((item) => (
       <li
         key={item.id}
         className="list-group-item d-flex justify-content-between align-items-center"
@@ -158,7 +152,6 @@ class App extends Component {
         </span>
         <span>
           
-
         <button
             className="btn btn-success mr-2"
             onClick={() => this.onClickComplete(item)}
@@ -173,17 +166,53 @@ class App extends Component {
             Edit
           </button>
 
+
           <button
             className="btn btn-danger"
             onClick={() => this.handleDelete(item)}
           >
             Delete
           </button>
-
+           
 
         </span>
       </li>
     ));
+  return entries } else{
+      return newItems.map((item) => (
+        <li
+          key={item.id}
+          className="list-group-item d-flex justify-content-between align-items-center"
+        >
+          <span
+            className={`todo-title mr-2 ${
+              this.state.viewCompleted ? "completed-todo" : ""
+            }`}
+            title={item.description}
+          >
+            {item.title}
+          </span>
+          <span>
+  
+            <button
+              className="btn btn-secondary mr-2"
+              onClick={() => this.editItem(item)}
+            >
+              Edit
+            </button>
+  
+  
+            <button
+              className="btn btn-danger"
+              onClick={() => this.handleDelete(item)}
+            >
+              Delete
+            </button>
+             
+  
+          </span>
+        </li>
+      ));}
   };
 
   render = () => {
